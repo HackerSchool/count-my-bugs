@@ -88,6 +88,7 @@ packages:
     version: "0.0.0"
   http:
     dependency: "direct main"
+
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -170,6 +171,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  opencv:
+    dependency: "direct main"
+    description:
+      name: opencv
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
   path:
     dependency: transitive
     description:

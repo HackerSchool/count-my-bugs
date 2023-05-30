@@ -2,9 +2,11 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'base.dart';
+
 
 void main(){                    //A camera n esta a funcionar em web, mas funciona com o Android
   runApp(MaterialApp(
@@ -52,6 +54,7 @@ Future getImage(bool isCamera) async {
 
       XFile? image = await picker.pickImage(source: ImageSource.gallery);   //guarda a imagem em image (variavel local)
 
+
       if (image != null){
         var f = await image.readAsBytes();  //se se escolheu um ficheiro, passa para a variavel global
         setState(() {
@@ -62,6 +65,9 @@ Future getImage(bool isCamera) async {
     }
   
 }
+
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +82,9 @@ Future getImage(bool isCamera) async {
             child: file == null?
             Container():
 
+
             
               Image.memory(web_image, fit: BoxFit.cover),
-
 
             height: 100,
             width: 500,
@@ -86,6 +92,7 @@ Future getImage(bool isCamera) async {
           
           FloatingActionButton(
             onPressed: () async{ 
+
               getImage(true);           //A camera n esta a funcionar em web, mas funciona com o Android 
             }, 
             child: Icon(Icons.camera),
@@ -111,6 +118,7 @@ Future getImage(bool isCamera) async {
             },
           ),
           Text(final_response), // mostra-se a string modificada
+
         ],
       )
     );
