@@ -2,14 +2,19 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
 import 'base.dart';
+import 'Functions.dart';
 
-
+String final_response = "aaaa";
+final picker = ImagePicker();
+int check_image = 0;             // verifica se alguma imagem foi selcionada (Sim == 1; Nao == 0)
+//File? file;                   //variavel do tipo ficheiro que guarda a imagem que sai da funçao, caso nao web
+Uint8List web_image = Uint8List(8); // guarda a imagem que sai da funçao caso web
 void main(){                    //A camera n esta a funcionar em web, mas funciona com o Android
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
     title: "My first page",
     home: FirstPage(),
@@ -26,48 +31,7 @@ class FirstPage extends StatefulWidget {
 class _FirstPageState extends State<FirstPage> {
 
 
-String final_response = "aaaa";
-final picker = ImagePicker();
-File? file;                   //variavel do tipo ficheiro que guarda a imagem que sai da funçao, caso nao web
-Uint8List web_image = Uint8List(8); // guarda a imagem que sai da funçao caso web
 
-
-
-Future getImage(bool isCamera) async {
-  if(isCamera){
-
-
-      XFile? image = await picker.pickImage(source: ImageSource.camera);   //guarda a imagem em image (variavel local)
-
-      if (image != null){
-        var f = await image.readAsBytes();  //se se escolheu um ficheiro, passa para a variavel global
-        setState(() {
-          web_image = f;
-          file = File('a');
-        });
-      }
-    }
-  
-
-  else if(!isCamera){
-    
-
-      XFile? image = await picker.pickImage(source: ImageSource.gallery);   //guarda a imagem em image (variavel local)
-
-
-      if (image != null){
-        var f = await image.readAsBytes();  //se se escolheu um ficheiro, passa para a variavel global
-        setState(() {
-          web_image = f;
-          file = File('a');
-        });
-      }
-    }
-  
-}
-
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -78,33 +42,43 @@ Future getImage(bool isCamera) async {
       ),
       body: Column(
         children: [
-          Container(
-            child: file == null?
-            Container():
-
-
-            
-              Image.memory(web_image, fit: BoxFit.cover),
-
+          SizedBox(
             height: 100,
             width: 500,
+            child: check_image == 0?
+            Container():
+  
+              Image.memory(web_image, fit: BoxFit.cover),
           ),
           
           FloatingActionButton(
-            onPressed: () async{ 
+            onPressed: () async{
+                var a = await F().getImage(true, web_image);           //A camera n esta a funcionar em web, mas funciona com o Android
 
-              getImage(true);           //A camera n esta a funcionar em web, mas funciona com o Android 
+                setState(() {
+                  web_image = a;
+                  check_image = 1;
+                });
+               
+              
             }, 
             child: Icon(Icons.camera),
           ),
 
           FloatingActionButton(
-            onPressed: (){
-              getImage(false);
+            onPressed: ()async{
+                var a = await F().getImage(false, web_image);
+          
+                setState(() {
+                  web_image = a;
+                  check_image = 1;
+                });
             }, 
             child: Icon(Icons.file_download),
           ),
           
+
+
           FloatingActionButton(
             child: Icon(Icons.send),
 
