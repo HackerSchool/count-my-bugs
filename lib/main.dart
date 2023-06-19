@@ -8,12 +8,8 @@ import 'dart:convert';
 import 'base.dart';
 import 'Functions.dart';
 
-String final_response = "aaaa";
-final picker = ImagePicker();
-int check_image = 0;             // verifica se alguma imagem foi selcionada (Sim == 1; Nao == 0)
-//File? file;                   //variavel do tipo ficheiro que guarda a imagem que sai da funçao, caso nao web
-Uint8List web_image = Uint8List(8); // guarda a imagem que sai da funçao caso web
-void main(){                    //A camera n esta a funcionar em web, mas funciona com o Android
+
+void main(){                    
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
     title: "My first page",
@@ -30,7 +26,11 @@ class FirstPage extends StatefulWidget {
 
 class _FirstPageState extends State<FirstPage> {
 
-
+String final_response = "aaaa";
+final picker = ImagePicker();
+int check_image = 0;             // verifica se alguma imagem foi selcionada (Sim == 1; Nao == 0)
+//File? file;                   //variavel do tipo ficheiro que guarda a imagem que sai da funçao, caso nao web
+Uint8List web_image = Uint8List(8); // guarda a imagem que sai da funçao caso web
 
 
   @override
@@ -83,15 +83,15 @@ class _FirstPageState extends State<FirstPage> {
             child: Icon(Icons.send),
 
             onPressed: ()async{
-             var responde = await BaseClient().post('ola'); //passa-se a string ola para o api.py
+             var responde = await BaseClient().post(web_image); //passa-se a string ola para o api.py
              var teste = await BaseClient().get(); //recebe-se a string modificada
-              
+             
               setState(() {
-                final_response = teste; // passa-se a string modificada para final_response
+                web_image = teste; // passa-se a string modificada para final_response
               });
             },
           ),
-          Text(final_response), // mostra-se a string modificada
+          //Text(final_response), // mostra-se a string modificada
 
         ],
       )

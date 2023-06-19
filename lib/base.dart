@@ -14,7 +14,7 @@ class BaseClient {
     var _payload = json.encode(object);
 
     var response = await client.post(url, body: _payload);
-    debugPrint(response.body);
+    //debugPrint(response.body);
     return response.body;
   }
 
@@ -22,6 +22,6 @@ class BaseClient {
     var url = Uri.parse(baseUrl + get1);
     var response = await client.get(url);
     var teste = json.decode(response.body);
-    return teste;
+    return base64Decode(teste);
   }
 }
