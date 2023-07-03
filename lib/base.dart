@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-const String baseUrl = 'http://127.0.0.1:2000';
+const String baseUrl = 'http://miguelcardoso.pythonanywhere.com/';
 const api = '/post';
 const get1 = '/get';
 

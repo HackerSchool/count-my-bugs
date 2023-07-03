@@ -21,6 +21,10 @@ def apost_req():
     output = request.get_json(force = True)
     image_array = np.array(output, dtype=np.uint8)
     image = cv.imdecode(image_array, cv.IMREAD_GRAYSCALE)
+    
+    
+    
+    
     test = image
     return jsonify(output)
 
