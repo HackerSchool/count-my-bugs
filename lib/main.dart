@@ -7,13 +7,14 @@ import 'dart:convert';
 
 import 'base.dart';
 import 'Functions.dart';
+import 'intro.dart';
 
 
 void main(){                    
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
     title: "My first page",
-    home: FirstPage(),
+    home: IntroPage(),
   ));
 }
 
