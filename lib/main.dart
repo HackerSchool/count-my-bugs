@@ -11,7 +11,7 @@ import 'intro.dart';
 
 
 void main(){                    
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     title: "My first page",
     home: IntroPage(),

@@ -1,9 +1,9 @@
-//import 'package:count_my_bugs/pages/firstpage.dart';
+import 'package:count_my_bugs/futuro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class IntroPage extends StatelessWidget {
-  const IntroPage({super.key});
+  IntroPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,20 +11,26 @@ class IntroPage extends StatelessWidget {
       backgroundColor: Colors.grey[300],
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25 ),
-        child: Column(children: const [
-          Padding(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+          const Padding(
             padding: EdgeInsets.all(25),
-            child: Icon(Icons.coronavirus),
+            child: Icon(
+              Icons.coronavirus,
+              size: 65,
+              ),
           ),
-          SizedBox(height: 48,),
-          Text('Count My Bugs',
+          const SizedBox(height: 48,),
+          const Text('Count My Bugs',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
             ),
           ),
-          SizedBox(height: 24,),
-          Text(
+          const SizedBox(height: 24,),
+          
+          const Text(
             'Capture, Count, Conquer: Unveil Bacterial Colonies with CountMyBugs',
             style: TextStyle(
             fontSize: 16,
@@ -32,8 +38,32 @@ class IntroPage extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 24,),
-          
+          const SizedBox(height: 24,),
+          GestureDetector(
+            onTap: () => Navigator.push(
+              context,
+             MaterialPageRoute(builder: (context) => FirstPage(),
+             ),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[900],
+            
+                borderRadius: BorderRadius.circular(12)
+              ),
+              padding: const EdgeInsets.all(25),
+              child: const Center(
+                child: Text(
+                  'Start',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
 
         ),

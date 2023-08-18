@@ -30,7 +30,7 @@ Uint8List web_image = Uint8List(8); // guarda a imagem que sai da funçao caso w
     return Scaffold(
       appBar: AppBar(
         title: Text("Home"),
-        backgroundColor: Colors.orange,
+        backgroundColor: Colors.grey[300],
       ),
       body: Column(
         children: [
@@ -38,8 +38,12 @@ Uint8List web_image = Uint8List(8); // guarda a imagem que sai da funçao caso w
             height: 100,
             width: 500,
             child: check_image == 0?
-            Container():
-  
+            Container(
+              child: Text(
+                'Press the button to choose a photo and start counting your bugs :)'
+              )
+            ):
+            
               Image.memory(web_image, fit: BoxFit.cover),
           ),
           
@@ -51,12 +55,10 @@ Uint8List web_image = Uint8List(8); // guarda a imagem que sai da funçao caso w
                   web_image = a;
                   check_image = 1;
                 });
-               
-              
             }, 
+
             child: Icon(Icons.camera),
           ),
-
           FloatingActionButton(
             onPressed: ()async{
                 var a = await F().getImage(false, web_image);
