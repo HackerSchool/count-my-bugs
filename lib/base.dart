@@ -22,6 +22,6 @@ class BaseClient {
     var url = Uri.parse(baseUrl + get1);
     var response = await client.get(url);
     var teste = json.decode(response.body);
-    return base64Decode(teste);
+    return teste;
   }
 }

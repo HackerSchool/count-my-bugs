@@ -24,6 +24,7 @@ final picker = ImagePicker();
 int check_image = 1;             // verifica se alguma imagem foi selcionada (Sim == 1; Nao == 0)
 //File? file;                   //variavel do tipo ficheiro que guarda a imagem que sai da funçao, caso nao web
 Uint8List web_image = Uint8List(8); // guarda a imagem que sai da funçao caso web
+int num_colonias = 0;
 Uint8List b = Uint8List(8);
 final isDialOpen = ValueNotifier(false);
 
@@ -41,6 +42,9 @@ final isDialOpen = ValueNotifier(false);
           return true;
         }
       },
+
+
+
       child: Scaffold(
         appBar: AppBar(
           title: Text("Home"),
@@ -50,7 +54,7 @@ final isDialOpen = ValueNotifier(false);
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              height: 100,
+              height: 500,
               width: 500,
               child: listEquals(web_image, b)?
               Container(
@@ -58,54 +62,39 @@ final isDialOpen = ValueNotifier(false);
                 child: Text(
                   'Press the button to choose a photo and start counting your bugs :)'
                 )
-              ):
-              
-                Image.memory(web_image, fit: BoxFit.cover),
+              ):            
+                        Row(
+                          children: [
+                            Image.memory(web_image, fit: BoxFit.contain),
+                            Text("Contagem: $num_colonias",style: TextStyle(fontSize: 15,)),
+                          ],
+                        ),
+             
+                
             ),
             
             Container(
               padding: EdgeInsets.only(bottom: 40),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                 /* FloatingActionButton(
-                    onPressed: () async{
-                        var a = await F().getImage(true, web_image);           //A camera n esta a funcionar em web, mas funciona com o Android
-    
-                        setState(() {
-                          web_image = a;
-                          check_image = 1;
-                        });
-                    }, 
-    
-                    child: Icon(Icons.camera),
-                  ),
-                  FloatingActionButton(
-                    onPressed: ()async{
-                        var a = await F().getImage(false, web_image);
-                  
-                        setState(() {
-                          web_image = a;
-                          check_image = 1;
-                        });
-                    }, 
-                    child: Icon(Icons.file_download),
-                  ), */
-                  
-    
-    
+                children: [      
+                          
                   FloatingActionButton(
                     child: Icon(Icons.send),
     
                     onPressed: ()async{
-                     var responde = await BaseClient().post(web_image); //passa-se a string ola para o api.py
-                     var teste = await BaseClient().get(); //recebe-se a string modificada
-                     
+                     var responde = await BaseClient().post(web_image); //manda-se a imagem
+                     var teste = await BaseClient().get();              //recebe-se a imagem modificada e a contagem. Estao dentro de teste
+                     responde = base64Decode(teste['imagem']);
+                     var num = teste['numeros'];
                       setState(() {
-                        web_image = teste; // passa-se a string modificada para final_response
+                        web_image = responde;            //passa-se a imagem e o numero para as variaveis globais
+                        num_colonias = num;
                       });
                     },
                   ),
+
+
     
                   SpeedDial(
                     animatedIcon: AnimatedIcons.menu_close, //por os botoes bonitos
