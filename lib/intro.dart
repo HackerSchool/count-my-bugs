@@ -1,4 +1,4 @@
-import 'package:count_my_bugs/futuro.dart';
+import 'package:count_my_bugs/pagina-principal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
