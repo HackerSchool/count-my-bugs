@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'dart:convert';
 import 'base.dart';
 import 'Functions.dart';
@@ -22,6 +23,8 @@ bool mostrar_contagem = false;
 int num_colonias = 0;
 Uint8List vazio = Uint8List(8);     //Variavel para verificar se temos uma imagem ao comparar com uma "matriz vazia"
 final isDialOpen = ValueNotifier(false);
+String image_path = "";             //path da imagem, necessário para parte de cortar a imagem
+CroppedFile? file_cropped;          //ficheiro em que se guarda a imagem recortada
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +45,7 @@ final isDialOpen = ValueNotifier(false);
 
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Home"),
+          title: const Text("Home"),
           backgroundColor: Colors.grey[300],
         ),
 
@@ -51,7 +54,7 @@ final isDialOpen = ValueNotifier(false);
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           onTap: _navigateBottomBar,
-          items: [
+          items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.send),
             label: "Enviar",
@@ -66,13 +69,13 @@ final isDialOpen = ValueNotifier(false);
           ),
         ]),
 
-        body: listEquals(web_image, vazio)?
+        body: listEquals(web_image, vazio)?   //se não houver imagem, retorna o texto
 
           Container(
-            padding: EdgeInsets.only(top: 30, left: 21),
-            child: Text('Press the button to choose a photo and start counting your bugs :)')
+            padding: const EdgeInsets.only(top: 30, left: 21),
+            child: const Text('Press the button to choose a photo and start counting your bugs :)')
           ):
-                            
+          // se houver imagem                
           Center(
             
             child: Column(
@@ -85,7 +88,7 @@ final isDialOpen = ValueNotifier(false);
                     border: Border.all(color: Colors.black, width: 3)
                   ),
 
-                  margin: EdgeInsets.only(top: 25, bottom: 20),
+                  margin: const EdgeInsets.only(top: 25, bottom: 20),
 
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
@@ -97,9 +100,25 @@ final isDialOpen = ValueNotifier(false);
                     )
                   )
                 ),
-                mostrar_contagem?
-                Text("Contagem: $num_colonias",style: TextStyle(fontSize: 15,)):
-                Text("",style: TextStyle(fontSize: 15,))
+                mostrar_contagem? //apenas se mostra a contagem se a imgagem já tiver sido enviada
+                Text("Contagem: $num_colonias",style: const TextStyle(fontSize: 15,)):
+                const Text("",style: TextStyle(fontSize: 15,)),
+
+
+                //botão de recortar a imagem
+
+                FloatingActionButton(
+                  onPressed: () async {
+                    var c = await Crop_image_func(context, image_path);
+                    
+                    if (c != Null) {
+                      setState(() {
+                        web_image = c as Uint8List;
+                      });
+                    }
+                  },
+                  
+                  )
               ],
             ),
             
@@ -116,7 +135,7 @@ Future _navigateBottomBar(int index) async{
     showDialog(
       context: context,
       builder: (context){
-        return Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator());
       }
     );
 
@@ -139,26 +158,33 @@ Future _navigateBottomBar(int index) async{
 
   }
   if (index==1){          //Galeria
-      var a = await Fotos().getImage(false, web_image);
+      var a = await Fotos().getImage(false);
+      var b =  await getPathFromUint8List(a);
 
     setState(() {
       web_image = a;
       num_colonias = 0;
       mostrar_contagem = false;
+      image_path = b;
+
     });
   }
 
   if(index==2){         //Câmera
                           
-    var a = await Fotos().getImage(true, web_image);           //A camera n esta a funcionar em web, mas funciona com o Android
+    var a = await Fotos().getImage(true);           //A camera n esta a funcionar em web, mas funciona com o Android
+    var b =  await getPathFromUint8List(a);   
       
     setState(() {
 
-      print(web_image);
       web_image = a;
       num_colonias = 0;
       mostrar_contagem = false;
+      image_path = b;
+
     });
+
+    
   }
 }
 }
