@@ -40,11 +40,9 @@ dependencies:
   http: ^1.0.0
   flutter_speed_dial: ^4.3.0
   image_cropper: ^8.0.2
-  path_provider: ^2.1.5
 
 
 dev_dependencies:
-  image_cropper_for_web: ^6.0.2
   flutter_test:
     sdk: flutter
 

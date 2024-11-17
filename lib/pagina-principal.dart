@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'base.dart';
 import 'Functions.dart';
@@ -24,7 +24,7 @@ int num_colonias = 0;
 Uint8List vazio = Uint8List(8);     //Variavel para verificar se temos uma imagem ao comparar com uma "matriz vazia"
 final isDialOpen = ValueNotifier(false);
 String image_path = "";             //path da imagem, necessário para parte de cortar a imagem
-CroppedFile? file_cropped;          //ficheiro em que se guarda a imagem recortada
+XFile? image;
 
   @override
   Widget build(BuildContext context) {
@@ -109,11 +109,11 @@ CroppedFile? file_cropped;          //ficheiro em que se guarda a imagem recorta
 
                 FloatingActionButton(
                   onPressed: () async {
-                    var c = await Crop_image_func(context, image_path);
+                    var c = await Crop_image_func(context, image!.path);
                     
-                    if (c != Null) {
+                    if (c != null) {
                       setState(() {
-                        web_image = c as Uint8List;
+                        web_image = c;
                       });
                     }
                   },
@@ -158,29 +158,27 @@ Future _navigateBottomBar(int index) async{
 
   }
   if (index==1){          //Galeria
-      var a = await Fotos().getImage(false);
-      var b =  await getPathFromUint8List(a);
+    var a = await Fotos().getImage(false);
+    var b = await a.readAsBytes();
 
     setState(() {
-      web_image = a;
+      image = a;
       num_colonias = 0;
       mostrar_contagem = false;
-      image_path = b;
-
+      web_image = b;
     });
   }
 
   if(index==2){         //Câmera
                           
     var a = await Fotos().getImage(true);           //A camera n esta a funcionar em web, mas funciona com o Android
-    var b =  await getPathFromUint8List(a);   
-      
-    setState(() {
+    var b = await a.readAsBytes();  
 
-      web_image = a;
+    setState(() {
+      image = a;
       num_colonias = 0;
       mostrar_contagem = false;
-      image_path = b;
+      web_image = b;
 
     });
 
