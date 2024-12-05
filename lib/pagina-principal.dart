@@ -1,3 +1,4 @@
+import 'package:count_my_bugs/pagina-cont-manual.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -46,18 +47,22 @@ XFile? image;
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Home"),
-          backgroundColor: Colors.grey[300],
+          backgroundColor: Colors.grey[900],
+          foregroundColor: Colors.white,
         ),
 
 
 
         bottomNavigationBar: BottomNavigationBar(
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white,
+          backgroundColor: Colors.grey[900],
           type: BottomNavigationBarType.fixed,
           onTap: _navigateBottomBar,
           items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.send),
-            label: "Enviar",
+            label: "Enviar"
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.file_download),
@@ -68,6 +73,9 @@ XFile? image;
             label: "Camera",
           ),
         ]),
+
+
+
 
         body: listEquals(web_image, vazio)?   //se não houver imagem, retorna o texto
 
@@ -101,24 +109,47 @@ XFile? image;
                   )
                 ),
                 mostrar_contagem? //apenas se mostra a contagem se a imgagem já tiver sido enviada
-                Text("Contagem: $num_colonias",style: const TextStyle(fontSize: 15,)):
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Contagem: $num_colonias",style: const TextStyle(fontSize: 15,)),
+
+                    //botao de contagem manual
+                    Padding(
+                      padding: const EdgeInsets.only(left: 30, right: 30),
+                      child: FloatingActionButton(
+                      child: Icon(Icons.brush, color: Colors.white),
+                      backgroundColor: Colors.grey[900],
+                      onPressed:(){
+                        Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Pagina_cont_manual())
+                        );
+                      }
+                      ),
+                    ),                 
+                  ],
+                ):
                 const Text("",style: TextStyle(fontSize: 15,)),
 
-
                 //botão de recortar a imagem
-
-                FloatingActionButton(
-                  onPressed: () async {
-                    var c = await Crop_image_func(context, image!.path);
+                !mostrar_contagem?
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FloatingActionButton(
+                    child: Icon(Icons.crop, color: Colors.white),
+                    backgroundColor: Colors.grey[900],
+                    onPressed: () async {
+                      var c = await Crop_image_func(context, image!.path);
+                      
+                      if (c != null) {
+                        setState(() {
+                          web_image = c;
+                        });
+                      }
+                    },
                     
-                    if (c != null) {
-                      setState(() {
-                        web_image = c;
-                      });
-                    }
-                  },
-                  
-                  )
+                    ),
+                ): SizedBox()
               ],
             ),
             
