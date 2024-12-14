@@ -121,15 +121,18 @@ XFile? image;
                       child: Icon(Icons.brush, color: Colors.white),
                       backgroundColor: Colors.grey[900],
                       onPressed:(){
-                        Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Pagina_cont_manual())
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Pagina_cont_manual(
+                              image: web_image
+                            ))
                         );
                       }
                       ),
                     ),                 
                   ],
                 ):
-                const Text("",style: TextStyle(fontSize: 15,)),
 
                 //botão de recortar a imagem
                 !mostrar_contagem?

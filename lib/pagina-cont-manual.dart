@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class Pagina_cont_manual extends StatefulWidget {
-  const Pagina_cont_manual({super.key});
+
+  final Uint8List image;
+  Pagina_cont_manual({required this.image});
 
   @override
   State<Pagina_cont_manual> createState() => _Pagina_cont_manualState();
@@ -10,6 +13,8 @@ class Pagina_cont_manual extends StatefulWidget {
 class _Pagina_cont_manualState extends State<Pagina_cont_manual> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Image.memory(widget.image),
+    );
   }
 }
