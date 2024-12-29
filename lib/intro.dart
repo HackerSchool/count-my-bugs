@@ -1,6 +1,9 @@
 import 'package:count_my_bugs/pagina-principal.dart';
+import 'package:count_my_bugs/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
+
 
 class IntroPage extends StatelessWidget {
   IntroPage({super.key});
@@ -8,7 +11,15 @@ class IntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        actions: [
+          IconButton(icon: const Icon(Icons.light_mode), 
+            onPressed: () {
+              Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+            },)
+        ],      ),
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25 ),
         child: Column(
@@ -47,7 +58,7 @@ class IntroPage extends StatelessWidget {
             ),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.grey[900],
+                color:Theme.of(context).colorScheme.primary,
             
                 borderRadius: BorderRadius.circular(12)
               ),
