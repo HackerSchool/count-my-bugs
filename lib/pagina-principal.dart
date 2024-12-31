@@ -118,17 +118,17 @@ XFile? image;
                     Padding(
                       padding: const EdgeInsets.only(left: 30, right: 30),
                       child: FloatingActionButton(
-                      child: Icon(Icons.brush, color: Colors.white),
-                      backgroundColor: Colors.grey[900],
-                      onPressed:(){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Pagina_cont_manual(
-                              image: web_image
-                            ))
-                        );
-                      }
+                        child: Icon(Icons.brush, color: Colors.white),
+                        backgroundColor: Colors.grey[900],
+                        onPressed:(){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Pagina_cont_manual(
+                                image: web_image
+                              ))
+                          );
+                        }
                       ),
                     ),                 
                   ],

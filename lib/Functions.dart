@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,6 +6,9 @@ import 'package:image_cropper/image_cropper.dart';
 import 'dart:typed_data';
 
 
+/*=====================================================*/
+/*Função usada para tirar/escolher uma foto da galeria*/
+/*=====================================================*/
 
 class Fotos {
 
@@ -28,7 +30,9 @@ class Fotos {
     }
   }
 
-
+/*=====================================================*/
+/*Função usada para recortar a imagem na pagina principal*/
+/*=====================================================*/
 
 Future Crop_image_func(BuildContext context, String image_path) async{
 
@@ -70,5 +74,34 @@ Future Crop_image_func(BuildContext context, String image_path) async{
 
   else{
     return null;
+  }
+}
+
+
+/*=====================================================*/
+/*Função usada para pintar os pontos na contagem manual*/
+/*=====================================================*/
+
+
+class PointsPainter extends CustomPainter {
+  final List<Offset> points;
+
+  PointsPainter(this.points);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.red
+      ..strokeWidth = 1
+      ..strokeCap = StrokeCap.round;
+
+    for (var point in points) {
+      canvas.drawCircle(point, 2, paint); // Draw a small circle at each point
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Repaint whenever points change
   }
 }
