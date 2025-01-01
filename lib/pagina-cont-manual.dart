@@ -1,4 +1,4 @@
-import 'package:count_my_bugs/Functions.dart';
+import 'package:count_my_bugs/Functions-contagem-manual.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
@@ -20,6 +20,7 @@ class _Pagina_cont_manualState extends State<Pagina_cont_manual> {
   /*Chave que serve para identificar  o widget da imagem e saber as suas dimensoes
   Necessario para calcular as coordenadas dos pontos, relativas ao widget*/
   final GlobalKey _imageKey = GlobalKey(); 
+  Uint8List? imagem_editada;
 
 
   @override
@@ -39,6 +40,7 @@ class _Pagina_cont_manualState extends State<Pagina_cont_manual> {
             GestureDetector(
 
               onTapDown: (TapDownDetails details){
+                //Render box é algo mais low level que o widget, permite-me saber o tamanho e aposição do widget
                 //Coordenadas do toque, relativas ao widget (child)
                 RenderBox renderBox = _imageKey.currentContext?.findRenderObject() as RenderBox;
 
@@ -98,8 +100,12 @@ class _Pagina_cont_manualState extends State<Pagina_cont_manual> {
             FloatingActionButton(
               child: Icon(Icons.arrow_back, color: Colors.white),
               backgroundColor: Colors.grey[900],
-              onPressed: () {
-                Navigator.pop(context);
+              onPressed: () async {
+
+                imagem_editada = await Gerar_imagem_com_os_pontos(_imageKey, widget.image, pontos);
+                if(imagem_editada != null){
+                  Navigator.pop(context, imagem_editada);
+                }
               },
             )
 

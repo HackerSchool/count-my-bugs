@@ -120,14 +120,17 @@ XFile? image;
                       child: FloatingActionButton(
                         child: Icon(Icons.brush, color: Colors.white),
                         backgroundColor: Colors.grey[900],
-                        onPressed:(){
-                          Navigator.push(
+                        onPressed:() async {
+                          final image_retornada = await Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => Pagina_cont_manual(
                                 image: web_image
                               ))
                           );
+                          setState(() {
+                            web_image = image_retornada;
+                          });
                         }
                       ),
                     ),                 

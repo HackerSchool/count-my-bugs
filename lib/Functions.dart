@@ -78,30 +78,3 @@ Future Crop_image_func(BuildContext context, String image_path) async{
 }
 
 
-/*=====================================================*/
-/*Função usada para pintar os pontos na contagem manual*/
-/*=====================================================*/
-
-
-class PointsPainter extends CustomPainter {
-  final List<Offset> points;
-
-  PointsPainter(this.points);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.red
-      ..strokeWidth = 1
-      ..strokeCap = StrokeCap.round;
-
-    for (var point in points) {
-      canvas.drawCircle(point, 2, paint); // Draw a small circle at each point
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true; // Repaint whenever points change
-  }
-}
