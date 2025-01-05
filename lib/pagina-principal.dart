@@ -47,7 +47,7 @@ XFile? image;
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Home"),
-          backgroundColor: Colors.grey[900],
+          backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Colors.white,
         ),
 
@@ -56,7 +56,7 @@ XFile? image;
         bottomNavigationBar: BottomNavigationBar(
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.white,
-          backgroundColor: Colors.grey[900],
+          backgroundColor: Theme.of(context).colorScheme.primary,
           type: BottomNavigationBarType.fixed,
           onTap: _navigateBottomBar,
           items: const [
