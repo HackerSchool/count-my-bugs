@@ -114,6 +114,8 @@ XFile? image;
                   children: [
                     Text("Contagem: $num_colonias",style: const TextStyle(fontSize: 15,)),
 
+
+
                     //botao de contagem manual
                     Padding(
                       padding: const EdgeInsets.only(left: 30, right: 30),
@@ -121,15 +123,19 @@ XFile? image;
                         child: Icon(Icons.brush, color: Colors.white),
                         backgroundColor: Colors.grey[900],
                         onPressed:() async {
-                          final image_retornada = await Navigator.push(
+
+                          /*Dados retornados = ["1": imagem editada, "2": numero de pontos] */
+                          final dados_retornados = await Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => Pagina_cont_manual(
                                 image: web_image
                               ))
                           );
+                          int numero = dados_retornados["2"];
                           setState(() {
-                            web_image = image_retornada;
+                            web_image = dados_retornados["1"];
+                             num_colonias += numero;
                           });
                         }
                       ),

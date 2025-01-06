@@ -101,10 +101,10 @@ class _Pagina_cont_manualState extends State<Pagina_cont_manual> {
               child: Icon(Icons.arrow_back, color: Colors.white),
               backgroundColor: Colors.grey[900],
               onPressed: () async {
-
+                int numero = pontos.length;
                 imagem_editada = await Gerar_imagem_com_os_pontos(_imageKey, widget.image, pontos);
                 if(imagem_editada != null){
-                  Navigator.pop(context, imagem_editada);
+                  Navigator.pop(context, {"1": imagem_editada, "2": numero});
                 }
               },
             )

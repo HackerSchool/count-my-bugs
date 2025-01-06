@@ -14,13 +14,12 @@ class PointsPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.red
-      ..strokeWidth = 1
-      ..strokeCap = StrokeCap.round;
+     final Paint pointPaint = Paint()
+    ..color = Colors.red
+    ..style = PaintingStyle.fill;
 
     for (var point in points) {
-      canvas.drawCircle(point, 2, paint); // Draw a small circle at each point
+      canvas.drawCircle(point, 2, pointPaint); // Draw a small circle at each point
     }
   }
 
