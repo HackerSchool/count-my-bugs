@@ -33,7 +33,7 @@ class PointsPainter extends CustomPainter {
 
 
 
-Future <Uint8List?> Gerar_imagem_com_os_pontos(GlobalKey _imageKey, Uint8List image, List<Offset> pontos) async {
+Future <Uint8List?> Gerar_imagem_com_os_pontos(GlobalKey _imageKey, Uint8List? image, List<Offset> pontos) async {
 
   RenderBox renderBox = _imageKey.currentContext?.findRenderObject() as RenderBox;
 
@@ -48,8 +48,12 @@ Future <Uint8List?> Gerar_imagem_com_os_pontos(GlobalKey _imageKey, Uint8List im
   final Canvas canvas = Canvas(recorder);
 
   //Vai buscar a imagem a imagem
-  final ui.Image imagem_original = await decodeImageFromList(image);
-  paintImage(canvas: canvas, rect: Rect.fromLTWH(0, 0, size.width, size.height), image: imagem_original, fit: BoxFit.contain);
+  if(image != null){
+    final ui.Image imagem_original = await decodeImageFromList(image);
+    paintImage(canvas: canvas, rect: Rect.fromLTWH(0, 0, size.width, size.height), image: imagem_original, fit: BoxFit.contain);
+  }
+  
+  
 
   //Desenha os pontos 
   final Paint pointPaint = Paint()

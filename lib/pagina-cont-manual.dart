@@ -20,8 +20,7 @@ class _Pagina_cont_manualState extends State<Pagina_cont_manual> {
   /*Chave que serve para identificar  o widget da imagem e saber as suas dimensoes
   Necessario para calcular as coordenadas dos pontos, relativas ao widget*/
   final GlobalKey _imageKey = GlobalKey(); 
-  Uint8List? imagem_editada;
-
+  Uint8List? imagem_editada = null;
 
   @override
   Widget build(BuildContext context) {
@@ -34,81 +33,92 @@ class _Pagina_cont_manualState extends State<Pagina_cont_manual> {
         ),
 
       body: Center(
+        
         child: Column(
           children: [
 
             GestureDetector(
 
-              onTapDown: (TapDownDetails details){
+              onTapDown: (TapDownDetails details) async {
                 //Render box é algo mais low level que o widget, permite-me saber o tamanho e aposição do widget
                 //Coordenadas do toque, relativas ao widget (child)
                 RenderBox renderBox = _imageKey.currentContext?.findRenderObject() as RenderBox;
 
-                  Offset coordenadasLocais = renderBox.globalToLocal(details.globalPosition);
+                Offset coordenadasLocais = renderBox.globalToLocal(details.globalPosition);
 
-                  setState(() {
+                setState(() {
                   pontos.add(coordenadasLocais); //adiciona o ponto (coordenadas) à lista
                 });
-              },  
-              
+
+
+                /*A cada toque, edita uma nova imagem com o novo ponto
+                  Na primeira vez usa a imagem original, depois edita a 
+                  editada anteriormente*/
+
+                if(imagem_editada == null){
+                  imagem_editada = await Gerar_imagem_com_os_pontos(_imageKey, widget.image, pontos);
+                }
+
+                if(imagem_editada != null){
+                  imagem_editada = await Gerar_imagem_com_os_pontos(_imageKey, imagem_editada, pontos);
+                }
+
+                setState(() {
+                  imagem_editada = imagem_editada;
+                });
+              },
+
               child: SizedBox(
                 height: 400,
                 width: 300,
-                child: Stack(
-                  /*Stack widget permite sobrepor widgets uns em cima dos outros */
+                child: Container(
+                            
+                  /*Mostrar a imagem*/
+                  
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: Colors.black, width: 3)
+                  ),
+                  
                 
-                  children:[
-                    /*Posiotined.fill faz que com a sua child ocupe toda a stack.
-                    Usar 2 para sobrepor a imagem ao desenho dos pontos*/
-                      Positioned.fill(
-                        child: Container(
-                          /*Mostrar a imagem*/
-                          
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                            border: Border.all(color: Colors.black, width: 3)
-                          ),
-                          
-                        
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Image.memory(
-                              widget.image,
-                              fit: BoxFit.cover,
-                              key: _imageKey, //key do widget da imagem
-                            )
-                          )
-                        ),
-                      ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: 
                     
-                
+                    /*Se não houver imagem editada, mostra a original
+                      Caso contrário mostra a editada*/
                     
-                    Positioned.fill(
-                      child: CustomPaint(
-                          painter: PointsPainter(pontos),
-                        
-                      ),
-                    ),
-                  ]
+                    (imagem_editada == null) ?
+
+                      Image.memory(
+                        widget.image,
+                        fit: BoxFit.cover,
+                        key: _imageKey,  //key do widget da image 
+                      ) 
+                      :
+                      Image.memory(
+                        imagem_editada!,
+                        fit: BoxFit.cover,
+                        key: _imageKey,  //key do widget da image 
+                      )
+                  )
                 ),
               ),
-            ),
-
-
+                  
+          ),
 
             /*Botão para voltar para trás*/
-            FloatingActionButton(
-              child: Icon(Icons.arrow_back, color: Colors.white),
-              backgroundColor: Colors.grey[900],
-              onPressed: () async {
-                int numero = pontos.length;
-                imagem_editada = await Gerar_imagem_com_os_pontos(_imageKey, widget.image, pontos);
-                if(imagem_editada != null){
-                  Navigator.pop(context, {"1": imagem_editada, "2": numero});
-                }
-              },
-            )
-
+          FloatingActionButton(
+            child: Icon(Icons.arrow_back, color: Colors.white),
+            backgroundColor: Colors.grey[900],
+            onPressed: () async {
+              int numero = pontos.length;
+              imagem_editada = await Gerar_imagem_com_os_pontos(_imageKey, widget.image, pontos);
+              if(imagem_editada != null){
+                Navigator.pop(context, {"1": imagem_editada, "2": numero});
+              }
+            },
+          )
           ],
         ),
       ),
