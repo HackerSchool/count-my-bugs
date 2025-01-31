@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,6 +6,9 @@ import 'package:image_cropper/image_cropper.dart';
 import 'dart:typed_data';
 
 
+/*=====================================================*/
+/*Função usada para tirar/escolher uma foto da galeria*/
+/*=====================================================*/
 
 class Fotos {
 
@@ -28,7 +30,9 @@ class Fotos {
     }
   }
 
-
+/*=====================================================*/
+/*Função usada para recortar a imagem na pagina principal*/
+/*=====================================================*/
 
 Future Crop_image_func(BuildContext context, String image_path) async{
 
@@ -72,3 +76,5 @@ Future Crop_image_func(BuildContext context, String image_path) async{
     return null;
   }
 }
+
+
